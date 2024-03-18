@@ -1,10 +1,12 @@
+import { CacheModule } from "@nestjs/cache-manager"
 import { Module } from "@nestjs/common"
-import { ConfigModule } from "@nestjs/config"
+import { ConfigModule, ConfigService } from "@nestjs/config"
+import * as redisStore from "cache-manager-redis-store"
 import * as Joi from "joi"
 import { AppController } from "./app.controller"
 import { AppService } from "./app.service"
+import { PrismaModule } from "./prisma/prisma.module"
 import { EnvPayload } from "./types/env-payload"
-import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -14,13 +16,25 @@ import { PrismaModule } from './prisma/prisma.module';
         NODE_ENV: Joi.string().required().valid("development", "production"),
         PORT: Joi.number().port().required(),
 
-        DB_URL: Joi.string().required(),
+        DATABASE_URL: Joi.string().required(),
 
         REDIS_HOST: Joi.string().required(),
         REDIS_PORT: Joi.number().port().required(),
       }),
     }),
     PrismaModule,
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory(configService: ConfigService<EnvPayload>) {
+        return {
+          isGlobal: true,
+          store: redisStore,
+          host: configService.get("REDIS_HOST"),
+          port: configService.get("REDIS_PORT"),
+        }
+      },
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

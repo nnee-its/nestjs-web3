@@ -19,3 +19,4 @@ services:
       - 6379:6379
     volumes:
       - ./tmp/redis:/data
+    restart: unless-stopped
