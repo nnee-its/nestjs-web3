@@ -1,14 +1,14 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
     image: postgres
     ports:
-      - ${DB_PORT}:5432
+      - 5432:5432
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: web321
+      POSTGRES_DB: web3
     volumes:
       - ./tmp/postgres:/var/lib/postgresql/data
     restart: unless-stopped
@@ -16,6 +16,6 @@ services:
   redis:
     image: redis
     ports:
-      - ${REDIS_PORT}:6379
+      - 6379:6379
     volumes:
       - ./tmp/redis:/data
