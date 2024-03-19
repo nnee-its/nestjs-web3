@@ -13,8 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+enum OperatorRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Operator {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  walletAddress String       @unique
+  walletKey     String       @unique
+  email         String       @unique
+  name          String
+  role          OperatorRole @default(VIEWER)
 }
