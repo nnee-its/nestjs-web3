@@ -3,6 +3,8 @@ import { Module } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import * as redisStore from "cache-manager-redis-store"
 import * as Joi from "joi"
+import { AuthController } from "./modules/auth/auth.controller"
+import { AuthModule } from "./modules/auth/auth.module"
 import { ClientModule } from "./modules/client/client.module"
 import { PrismaModule } from "./modules/prisma/prisma.module"
 import { EnvPayload } from "./types/env-payload"
@@ -37,6 +39,8 @@ import { EnvPayload } from "./types/env-payload"
       inject: [ConfigService],
     }),
     ClientModule,
+    AuthModule,
   ],
+  controllers: [AuthController],
 })
 export class AppModule {}

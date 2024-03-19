@@ -26,7 +26,7 @@ model Operator {
   updatedAt DateTime @updatedAt
 
   walletAddress String       @unique
-  walletKey     String       @unique
+  signature     String       @unique
   email         String       @unique
   name          String
   role          OperatorRole @default(VIEWER)
