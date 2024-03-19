@@ -6,4 +6,6 @@ export interface EnvPayload {
 
   REDIS_HOST: string
   REDIS_PORT: number
+
+  WALLET_CLIENT_PRIVATE_KEY: string
 }

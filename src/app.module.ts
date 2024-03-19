@@ -3,9 +3,8 @@ import { Module } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import * as redisStore from "cache-manager-redis-store"
 import * as Joi from "joi"
-import { AppController } from "./app.controller"
-import { AppService } from "./app.service"
-import { PrismaModule } from "./prisma/prisma.module"
+import { ClientModule } from "./modules/client/client.module"
+import { PrismaModule } from "./modules/prisma/prisma.module"
 import { EnvPayload } from "./types/env-payload"
 
 @Module({
@@ -20,6 +19,8 @@ import { EnvPayload } from "./types/env-payload"
 
         REDIS_HOST: Joi.string().required(),
         REDIS_PORT: Joi.number().port().required(),
+
+        WALLET_CLIENT_PRIVATE_KEY: Joi.string().required(),
       }),
     }),
     PrismaModule,
@@ -35,8 +36,7 @@ import { EnvPayload } from "./types/env-payload"
       },
       inject: [ConfigService],
     }),
+    ClientModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
