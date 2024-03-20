@@ -23,6 +23,11 @@ import { EnvPayload } from "./types/env-payload"
         REDIS_PORT: Joi.number().port().required(),
 
         WALLET_CLIENT_PRIVATE_KEY: Joi.string().required(),
+
+        ACCESS_TOKEN_SECRET: Joi.string().required(),
+        ACCESS_TOKEN_EXPIRE: Joi.string().required(),
+        REFRESH_TOKEN_SECRET: Joi.string().required(),
+        REFRESH_TOKEN_EXPIRE: Joi.string().required(),
       }),
     }),
     PrismaModule,
