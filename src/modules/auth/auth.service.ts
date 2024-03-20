@@ -2,13 +2,11 @@ import { Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { JwtService } from "@nestjs/jwt"
 import { EnvPayload } from "src/types/env-payload"
-import { PrismaService } from "../prisma/prisma.service"
 
 @Injectable()
 export class AuthService {
   constructor(
     private configService: ConfigService<EnvPayload>,
-    private prismaService: PrismaService,
     private jwtService: JwtService,
   ) {}
 
