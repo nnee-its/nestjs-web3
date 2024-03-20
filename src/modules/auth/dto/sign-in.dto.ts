@@ -1,9 +1,6 @@
-import { IsEthereumAddress, IsString } from "class-validator"
+import { IsString } from "class-validator"
 
 export class SignInDto {
-  @IsEthereumAddress()
-  walletAddress: string
-
   @IsString()
   signature: string
 
