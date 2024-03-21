@@ -6,7 +6,7 @@ export const CurrentOperator = createParamDecorator(
   (data: keyof Operator, context: ExecutionContext) => {
     const operator = context
       .switchToHttp()
-      .getRequest<RequestWithOperator>().user
+      .getRequest<RequestWithOperator>().operator
     return data ? operator[data] : operator
   },
 )
