@@ -23,9 +23,9 @@ export class OperatorController {
   @Roles(OperatorRole.SUPER_ADMIN)
   async updateOperatorRole(
     @Body() data: UpdateOperatorRoleDto,
-    @CurrentOperator() currentOperator: Operator,
+    @CurrentOperator() operator: Operator,
   ) {
-    if (currentOperator.walletAddress === data.walletAddress)
+    if (operator.walletAddress === data.walletAddress)
       throw new BadRequestException()
     await this.prismaService.operator.update({
       where: {

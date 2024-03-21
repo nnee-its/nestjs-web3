@@ -58,6 +58,11 @@ export class RefreshTokenStrategy extends PassportStrategy(
         walletAddress: payload.walletAddress,
       },
     })
+    const refreshToken = request.headers["authorization"]
+      .replace("Bearer", "")
+      .trim()
+
+    if (operator.refreshToken !== refreshToken) return null
     request.operator = operator
     return operator
   }

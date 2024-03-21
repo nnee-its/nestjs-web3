@@ -1,9 +1,9 @@
 import { IsHexadecimal, IsString } from "class-validator"
 
 export class SignInDto {
-  @IsString()
+  @IsHexadecimal()
   signature: string
 
-  @IsHexadecimal()
+  @IsString()
   message: string
 }

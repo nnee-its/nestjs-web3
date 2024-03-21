@@ -20,7 +20,10 @@ async function bootstrap() {
     }),
   )
 
-  const swaggerConfig = new DocumentBuilder().setTitle("NestJs Web3").build()
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle("NestJs Web3")
+    .addBearerAuth()
+    .build()
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
   SwaggerModule.setup("docs", app, swaggerDocument, {
     swaggerOptions: {
