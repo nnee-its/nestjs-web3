@@ -30,6 +30,7 @@ export class AccessTokenStrategy extends PassportStrategy(
         walletAddress: payload.walletAddress,
       },
     })
+
     request.operator = operator
     return operator
   }

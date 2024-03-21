@@ -1,11 +1,9 @@
 import { CacheModule } from "@nestjs/cache-manager"
 import { Module } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
-import { APP_GUARD } from "@nestjs/core"
 import * as redisStore from "cache-manager-redis-store"
 import * as Joi from "joi"
 import { AuthModule } from "./modules/auth/auth.module"
-import { RolesGuard } from "./modules/auth/guards/roles.guard"
 import { ClientModule } from "./modules/client/client.module"
 import { OperatorModule } from "./modules/operator/operator.module"
 import { PrismaModule } from "./modules/prisma/prisma.module"
@@ -48,12 +46,6 @@ import { EnvPayload } from "./types/env-payload"
     ClientModule,
     AuthModule,
     OperatorModule,
-  ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
   ],
 })
 export class AppModule {}
