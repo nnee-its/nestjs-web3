@@ -1,4 +1,10 @@
-import { Body, Controller, Post, UnauthorizedException } from "@nestjs/common"
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  UnauthorizedException,
+} from "@nestjs/common"
 import { ApiTags } from "@nestjs/swagger"
 import { SiweMessage } from "siwe"
 import { exclude } from "src/utils/exclude"
@@ -16,7 +22,12 @@ export class AuthController {
 
   @Post("sign-in")
   async signIn(@Body() data: SignInDto) {
-    const siweMessage = new SiweMessage(data.message)
+    let siweMessage: SiweMessage
+    try {
+      siweMessage = new SiweMessage(data.message)
+    } catch (error) {
+      throw new BadRequestException("Invalid message")
+    }
     const siweResponse = await siweMessage.verify({
       signature: data.signature,
     })

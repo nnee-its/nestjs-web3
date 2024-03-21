@@ -29,4 +29,6 @@ model Operator {
   name         String?
   role         OperatorRole @default(VIEWER)
   refreshToken String?
+
+  @@map("operators")
 }

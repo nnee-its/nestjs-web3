@@ -8,10 +8,10 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext) {
-    const roles = this.reflector.getAll<OperatorRole[]>("roles", [
-      context.getClass(),
+    const roles = this.reflector.get<OperatorRole[]>(
+      "roles",
       context.getHandler(),
-    ])
+    )
     if (!roles) return true
 
     const request = context.switchToHttp().getRequest<RequestWithOperator>()
