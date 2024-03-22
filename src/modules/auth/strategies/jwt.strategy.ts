@@ -63,6 +63,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
       .replace("Bearer", "")
       .trim()
 
+    if (!operator) return null
     if (operator.refreshToken !== refreshToken) return null
     request.operator = operator
     return operator
