@@ -4,12 +4,11 @@ import {
   Controller,
   Get,
   Post,
-  UnauthorizedException,
   UseGuards,
 } from "@nestjs/common"
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 import { Operator } from "@prisma/client"
-import { SiweMessage } from "siwe"
+import { SiweMessage, SiweResponse } from "siwe"
 import { exclude } from "src/utils/exclude"
 import { PrismaService } from "../prisma/prisma.service"
 import { AuthService } from "./auth.service"
@@ -34,10 +33,15 @@ export class AuthController {
     } catch (error) {
       throw new BadRequestException("Invalid message")
     }
-    const siweResponse = await siweMessage.verify({
-      signature: data.signature,
-    })
-    if (!siweResponse.data) throw new UnauthorizedException()
+
+    let siweResponse: SiweResponse
+    try {
+      siweResponse = await siweMessage.verify({
+        signature: data.signature,
+      })
+    } catch (error) {
+      throw new BadRequestException("Invalid signature")
+    }
 
     const { address } = siweResponse.data
     let operator = await this.prismaService.operator.findUnique({
