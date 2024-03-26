@@ -24,6 +24,7 @@ model Operator {
   walletAddress String   @id
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  isDeleted     Boolean  @default(false)
 
   email        String?      @unique
   name         String?
@@ -31,4 +32,19 @@ model Operator {
   refreshToken String?
 
   @@map("operators")
+}
+
+model Pool {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isDeleted Boolean  @default(false)
+
+  projectName  String
+  idoPrice     Decimal
+  totalRaise   Decimal
+  tokenName    String
+  tokenNetwork String
+  idoNetwork   String
+  socials      Json
 }

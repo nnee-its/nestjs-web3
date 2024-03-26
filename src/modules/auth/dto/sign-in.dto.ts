@@ -1,7 +1,7 @@
-import { IsHexadecimal, IsString } from "class-validator"
+import { IsString } from "class-validator"
 
 export class SignInDto {
-  @IsHexadecimal()
+  @IsString()
   signature: string
 
   @IsString()
