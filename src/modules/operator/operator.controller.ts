@@ -17,13 +17,13 @@ import { UpdateOperatorRoleDto } from "./dto/update-operator-role.dto"
 
 @ApiTags("Operator")
 @ApiBearerAuth()
-@UseGuards(AccessTokenGuard, RolesGuard)
 @Controller("operator")
 export class OperatorController {
   constructor(private prismaService: PrismaService) {}
 
-  @Patch("role")
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles(OperatorRole.SUPER_ADMIN)
+  @Patch("role")
   async updateOperatorRole(
     @Body() data: UpdateOperatorRoleDto,
     @CurrentOperator() operator: Operator,
