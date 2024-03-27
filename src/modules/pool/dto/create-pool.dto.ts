@@ -38,4 +38,8 @@ export class CreatePoolDto {
   @ValidateNested({ each: true })
   @Type(() => PoolSocial)
   socials: PoolSocial[]
+
+  @IsString()
+  @IsNotEmpty()
+  description: string
 }

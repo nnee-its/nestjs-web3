@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Post,
   UseGuards,
 } from "@nestjs/common"
@@ -13,6 +14,7 @@ import { exclude } from "src/utils/exclude"
 import { PrismaService } from "../prisma/prisma.service"
 import { AuthService } from "./auth.service"
 import { CurrentOperator } from "./decorators/current-operator.decorator"
+import { PublicRoute } from "./decorators/public-route.decorator"
 import { SignInDto } from "./dto/sign-in.dto"
 import { RefreshTokenGuard } from "./guards/jwt.guard"
 
@@ -21,7 +23,7 @@ import { RefreshTokenGuard } from "./guards/jwt.guard"
 @Controller("auth")
 export class AuthController {
   constructor(
-    private prismaService: PrismaService,
+    @Inject("PRISMA") private prismaService: PrismaService,
     private authService: AuthService,
   ) {}
 
@@ -76,6 +78,7 @@ export class AuthController {
     }
   }
 
+  @PublicRoute()
   @UseGuards(RefreshTokenGuard)
   @Get("refresh-token")
   async refreshToken(@CurrentOperator() operator: Operator) {

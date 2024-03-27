@@ -2,16 +2,14 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Inject,
   NotFoundException,
   Patch,
-  UseGuards,
 } from "@nestjs/common"
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 import { Operator, OperatorRole } from "@prisma/client"
 import { CurrentOperator } from "../auth/decorators/current-operator.decorator"
 import { Roles } from "../auth/decorators/roles.decorator"
-import { AccessTokenGuard } from "../auth/guards/jwt.guard"
-import { RolesGuard } from "../auth/guards/roles.guard"
 import { PrismaService } from "../prisma/prisma.service"
 import { UpdateOperatorRoleDto } from "./dto/update-operator-role.dto"
 
@@ -19,9 +17,8 @@ import { UpdateOperatorRoleDto } from "./dto/update-operator-role.dto"
 @ApiBearerAuth()
 @Controller("operator")
 export class OperatorController {
-  constructor(private prismaService: PrismaService) {}
+  constructor(@Inject("PRISMA") private prismaService: PrismaService) {}
 
-  @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles(OperatorRole.SUPER_ADMIN)
   @Patch("role")
   async updateOperatorRole(

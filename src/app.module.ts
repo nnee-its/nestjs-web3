@@ -1,9 +1,12 @@
 import { CacheModule } from "@nestjs/cache-manager"
 import { Module } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
+import { APP_GUARD } from "@nestjs/core"
 import * as redisStore from "cache-manager-redis-store"
 import * as Joi from "joi"
 import { AuthModule } from "./modules/auth/auth.module"
+import { AccessTokenGuard } from "./modules/auth/guards/jwt.guard"
+import { RolesGuard } from "./modules/auth/guards/roles.guard"
 import { ClientModule } from "./modules/client/client.module"
 import { OperatorModule } from "./modules/operator/operator.module"
 import { PoolModule } from "./modules/pool/pool.module"
@@ -48,6 +51,16 @@ import { EnvPayload } from "./types/env-payload"
     AuthModule,
     OperatorModule,
     PoolModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule {}

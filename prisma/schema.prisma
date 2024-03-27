@@ -47,6 +47,7 @@ model Pool {
   tokenNetwork String
   idoNetwork   String
   socials      Json
+  description  String
 
   @@map("pools")
 }

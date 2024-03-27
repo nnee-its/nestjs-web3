@@ -3,20 +3,18 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   NotFoundException,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
   Query,
-  UseGuards,
 } from "@nestjs/common"
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 import { OperatorRole, Prisma } from "@prisma/client"
 import { paginationResponse } from "src/utils/response"
 import { Roles } from "../auth/decorators/roles.decorator"
-import { AccessTokenGuard } from "../auth/guards/jwt.guard"
-import { RolesGuard } from "../auth/guards/roles.guard"
 import { PrismaService } from "../prisma/prisma.service"
 import { CreatePoolDto } from "./dto/create-pool.dto"
 import { GetPoolsDto } from "./dto/get-pools.dto"
@@ -24,12 +22,10 @@ import { UpdatePoolDto } from "./dto/update-pool.dto"
 
 @ApiTags("Pool")
 @ApiBearerAuth()
-@UseGuards(AccessTokenGuard, RolesGuard)
 @Controller("pool")
 export class PoolController {
-  constructor(private prismaService: PrismaService) {}
+  constructor(@Inject("PRISMA") private prismaService: PrismaService) {}
 
-  @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles(OperatorRole.SUPER_ADMIN, OperatorRole.ADMIN, OperatorRole.EDITOR)
   @Post()
   createPool(@Body() data: CreatePoolDto) {
@@ -82,7 +78,6 @@ export class PoolController {
     return pool
   }
 
-  @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles(OperatorRole.SUPER_ADMIN, OperatorRole.ADMIN, OperatorRole.EDITOR)
   @Patch(":poolId")
   async updatePool(
@@ -102,7 +97,6 @@ export class PoolController {
     return "Updated pool"
   }
 
-  @UseGuards(AccessTokenGuard, RolesGuard)
   @Roles(OperatorRole.SUPER_ADMIN, OperatorRole.ADMIN, OperatorRole.EDITOR)
   @Delete(":poolId")
   async deletePool(@Param("poolId", ParseUUIDPipe) poolId: string) {

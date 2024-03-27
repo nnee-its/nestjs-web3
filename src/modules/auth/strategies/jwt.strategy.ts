@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common"
+import { Inject, Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { PassportStrategy } from "@nestjs/passport"
 import { ExtractJwt, Strategy } from "passport-jwt"
@@ -14,7 +14,7 @@ export class AccessTokenStrategy extends PassportStrategy(
 ) {
   constructor(
     private configService: ConfigService<EnvPayload>,
-    private prismaService: PrismaService,
+    @Inject("PRISMA") private prismaService: PrismaService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -43,7 +43,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
 ) {
   constructor(
     private configService: ConfigService<EnvPayload>,
-    private prismaService: PrismaService,
+    @Inject("PRISMA") private prismaService: PrismaService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
