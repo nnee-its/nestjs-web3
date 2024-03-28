@@ -59,6 +59,9 @@ export class PoolController {
         where,
         skip: (page - 1) * take,
         take,
+        orderBy: {
+          updatedAt: "desc",
+        },
       }),
       this.prismaService.pool.count({
         where,

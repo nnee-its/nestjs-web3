@@ -47,6 +47,9 @@ export class OperatorController {
         where,
         skip: (page - 1) * take,
         take,
+        orderBy: {
+          updatedAt: "desc",
+        },
       }),
       this.prismaService.operator.count({ where }),
     ])
