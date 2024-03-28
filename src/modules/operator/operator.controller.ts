@@ -54,22 +54,23 @@ export class OperatorController {
   }
 
   @Roles(OperatorRole.SUPER_ADMIN)
-  @Patch("role")
+  @Patch(":walletAddress/role")
   async updateOperatorRole(
+    @Param("walletAddress") walletAddress: string,
     @Body() data: UpdateOperatorRoleDto,
     @CurrentOperator() operator: Operator,
   ) {
-    if (operator.walletAddress === data.walletAddress)
+    if (operator.walletAddress === walletAddress)
       throw new BadRequestException("Invalid wallet address")
     const targetOperator = await this.prismaService.operator.findUnique({
       where: {
-        walletAddress: data.walletAddress,
+        walletAddress,
       },
     })
     if (!targetOperator) throw new NotFoundException("Wallet address not found")
     await this.prismaService.operator.update({
       where: {
-        walletAddress: data.walletAddress,
+        walletAddress,
       },
       data: {
         role: data.role,

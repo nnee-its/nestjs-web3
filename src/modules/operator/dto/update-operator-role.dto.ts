@@ -1,12 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { OperatorRole } from "@prisma/client"
-import { IsEnum, IsEthereumAddress } from "class-validator"
-import { Address } from "viem"
+import { IsEnum } from "class-validator"
 
 export class UpdateOperatorRoleDto {
-  @IsEthereumAddress()
-  walletAddress: Address
-
   @ApiProperty({
     enum: OperatorRole,
   })
