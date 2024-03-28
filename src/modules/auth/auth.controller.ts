@@ -20,6 +20,7 @@ import { RefreshTokenGuard } from "./guards/jwt.guard"
 
 @ApiTags("Auth")
 @ApiBearerAuth()
+@PublicRoute()
 @Controller("auth")
 export class AuthController {
   constructor(
@@ -78,7 +79,6 @@ export class AuthController {
     }
   }
 
-  @PublicRoute()
   @UseGuards(RefreshTokenGuard)
   @Get("refresh-token")
   async refreshToken(@CurrentOperator() operator: Operator) {
