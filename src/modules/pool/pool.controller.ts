@@ -100,12 +100,18 @@ export class PoolController {
   @Roles(OperatorRole.SUPER_ADMIN, OperatorRole.ADMIN, OperatorRole.EDITOR)
   @Delete(":poolId")
   async deletePool(@Param("poolId", ParseUUIDPipe) poolId: string) {
-    const pool = await this.prismaService.pool.delete({
+    const pool = await this.prismaService.pool.findUnique({
       where: {
         id: poolId,
       },
     })
     if (!pool) throw new NotFoundException("Pool does not exist")
+
+    await this.prismaService.pool.delete({
+      where: {
+        id: poolId,
+      },
+    })
     return "Deleted pool"
   }
 }
